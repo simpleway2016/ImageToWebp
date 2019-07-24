@@ -43,7 +43,17 @@ namespace ImageToWebp.Impls
                     )
                 )
                 .Build();
-
+            var ext = Path.GetExtension(srcFile);
+            if(string.Equals(ext , ".gif" , StringComparison.CurrentCultureIgnoreCase))
+            {
+                //gif需要更改工具名称
+               var type =  encoder.GetType();
+               var fieldInfo = type.GetField("_executeFilePath", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+               var _executeFilePath = (string)fieldInfo.GetValue(encoder).ToString().Replace("cwebp.exe" , "gif2webp.exe");
+                fieldInfo.SetValue(encoder, _executeFilePath);
+                fieldInfo = type.GetField("_arguments", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                fieldInfo.SetValue(encoder, "-q 70");
+            }
             while (true)
             {
                 try

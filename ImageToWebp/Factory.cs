@@ -35,7 +35,7 @@ namespace ImageToWebp
                     string sourcefile = env.WebRootPath + originalUrl;
                     ICompressor compressor;
 
-                    var match = System.Text.RegularExpressions.Regex.Match(originalUrl, @"^(.+)\.(?<ext>png|jpg|jpeg)$", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                    var match = System.Text.RegularExpressions.Regex.Match(originalUrl, @"^(.+)\.(?<ext>png|jpg|jpeg|gif)$", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                     if (match != null && match.Length > 0)
                     {
 
@@ -62,9 +62,11 @@ namespace ImageToWebp
                             newfilepath = env.WebRootPath + result;
                             if (File.Exists(sourcefile) == false)
                                 return task();
-                           
+
                             if (ext == "jpg")
                                 ext = "jpeg";
+                            else if (ext == "gif")
+                                return task();
 
                             context.Response.ContentType = $"image/{ext}";
                             compressor = compressors[1];
