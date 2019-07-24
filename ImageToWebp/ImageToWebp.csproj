@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Jack</Authors>
-    <Description>用户访问png jpg jpeg 文件时，自动生成webp文件响应给客户，客户浏览器不支持的情况下，自动生成压缩的图片文件响应给客户</Description>
+    <Description>当用户访问.png .jpg文件时，根据客户浏览器对webp格式的支持程度，自动压缩为webp图片，响应给用户， 不支持webp的用户，将以传统图片压缩方式压缩图片，响应给用户</Description>
     <RepositoryUrl>https://github.com/simpleway2016/ImageToWebp.git</RepositoryUrl>
     <Version>1.0.0.1</Version>
   </PropertyGroup>
