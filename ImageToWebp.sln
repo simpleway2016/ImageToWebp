@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{0F2BFED5-353D-49FD-B310-35E9195478B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageToWebp", "ImageToWebp\ImageToWebp.csproj", "{625C76F9-0A6F-470D-A135-F49EF9327469}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F2BFED5-353D-49FD-B310-35E9195478B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2BFED5-353D-49FD-B310-35E9195478B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2BFED5-353D-49FD-B310-35E9195478B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2BFED5-353D-49FD-B310-35E9195478B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{625C76F9-0A6F-470D-A135-F49EF9327469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{625C76F9-0A6F-470D-A135-F49EF9327469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{625C76F9-0A6F-470D-A135-F49EF9327469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{625C76F9-0A6F-470D-A135-F49EF9327469}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F09E14B-E916-48F2-8390-FDB6BB40375C}
+	EndGlobalSection
+EndGlobal
