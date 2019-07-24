@@ -29,7 +29,7 @@ namespace WebApplication1
             
 
             ImageToWebp.Factory.Enable(app, env);
-
+            app.UseStaticFiles();
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");

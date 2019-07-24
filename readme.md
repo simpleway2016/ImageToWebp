@@ -4,6 +4,7 @@
 ``` 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //这句代码要放在Configure方法体的最上面
             ImageToWebp.Factory.Enable(app, env);
 
             app.Run(async (context) =>
