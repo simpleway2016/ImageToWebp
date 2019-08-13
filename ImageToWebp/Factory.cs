@@ -77,7 +77,7 @@ namespace ImageToWebp
                         if (File.Exists(newfilepath))
                         {
                             var fileinfo = new System.IO.FileInfo(newfilepath);
-                            if (fileinfo.LastWriteTime == srcfileinfo.LastWriteTime)
+                            if (fileinfo.LastWriteTime == srcfileinfo.LastWriteTime && fileinfo.Length > 0)
                             {
                                 return FileSender.SendFile(context, fileinfo, newfilepath);
                             }

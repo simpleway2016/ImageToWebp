@@ -21,13 +21,15 @@ namespace ImageToWebp.Impls
     {
         public void Compress(IServiceProvider serviceProvider, string srcFile, string dstFile)
         {
+            var loggerFactory = (ILoggerFactory)serviceProvider.GetService(typeof(ILoggerFactory));
+            var logger = loggerFactory.CreateLogger("ImageToWebp");
+
             string tempfile = null;
             var path = Path.Combine(Path.GetFullPath("."), "webp");
             //根据当前系统平台下载google压缩工具
             if (Directory.Exists(path) == false)
             {
-                var loggerFactory = (ILoggerFactory)serviceProvider.GetService(typeof(ILoggerFactory));
-                var logger = loggerFactory.CreateLogger("ImageToWebp");
+              
 
                 logger.LogInformation("begin WebPExecuteDownloader.Download");
                 WebPExecuteDownloader.Download();
@@ -49,15 +51,18 @@ namespace ImageToWebp.Impls
                 //gif需要更改工具名称
                var type =  encoder.GetType();
                var fieldInfo = type.GetField("_executeFilePath", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-               var _executeFilePath = (string)fieldInfo.GetValue(encoder).ToString().Replace("cwebp.exe" , "gif2webp.exe");
+               var _executeFilePath = (string)fieldInfo.GetValue(encoder).ToString().Replace("cwebp" , "gif2webp");
                 fieldInfo.SetValue(encoder, _executeFilePath);
                 fieldInfo = type.GetField("_arguments", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
                 fieldInfo.SetValue(encoder, "-q 70");
             }
+
+
             while (true)
             {
                 try
                 {
+                    logger.LogInformation("build webp for " + dstFile);
                     using (var outputFile = File.Open(dstFile, FileMode.Create))
                     using (var inputFile = File.Open(srcFile, FileMode.Open))
                     {
@@ -75,6 +80,9 @@ namespace ImageToWebp.Impls
                 }
                 catch (Exception ex)
                 {
+                   
+                    logger.LogError(  ex.ToString());
+
                     if (tempfile != null)
                     {
                         try
