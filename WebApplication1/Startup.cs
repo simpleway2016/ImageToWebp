@@ -29,6 +29,12 @@ namespace WebApplication1
             
 
             ImageToWebp.Factory.Enable(app, env);
+
+
+            //env.ContentRootFileProvider = new PhysicalFileProvider(Program.Configuration["wwwroot"]);
+            //env.ContentRootPath = Program.Configuration["wwwroot"];
+            //env.WebRootPath = Program.Configuration["wwwroot"];
+            //env.WebRootFileProvider = new PhysicalFileProvider(Program.Configuration["wwwroot"]);
             app.UseStaticFiles();
             app.Run(async (context) =>
             {

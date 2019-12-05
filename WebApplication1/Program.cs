@@ -12,13 +12,20 @@ namespace WebApplication1
 {
     public class Program
     {
+        public static IConfigurationRoot Configuration;
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            Configuration = new ConfigurationBuilder()
+                                        .AddJsonFile("config.json")
+                                        .Build();
+
+            return WebHost.CreateDefaultBuilder(args)
+                    .UseStartup<Startup>();
+        }
     }
 }
