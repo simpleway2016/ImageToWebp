@@ -16,8 +16,9 @@ namespace ImageToWebp
         /// <param name="context"></param>
         /// <param name="fullpath"></param>
         /// <returns></returns>
-        static async Task RangeDownload(HttpContext context, string fullpath)
+        static async Task RangeDownload(HttpContext context, string fullpath,DateTime lastwriteTime)
         {
+            context.Response.Headers.LastModified = lastwriteTime.ToUniversalTime().ToString("R");
             long size, start, end, length, fp = 0;
             using (StreamReader reader = new StreamReader(File.OpenRead(fullpath)))
             {
@@ -105,13 +106,14 @@ namespace ImageToWebp
             await context.Response.SendFileAsync(fullpath, fp, length);
         }
 
-        public static Task SendFile(HttpContext context, FileInfo fileinfo, string file)
+        public static Task SendFile(HttpContext context, string file)
         {
+            var lastWriteTime = new System.IO.FileInfo(file).LastWriteTime;
             try
             {
                 var since = context.Request.Headers["If-Modified-Since"].ToString();
-                var lastWriteTime = new System.IO.FileInfo(file).LastWriteTime.ToString("R");
-                if (lastWriteTime == since)
+
+                if ( !string.IsNullOrEmpty(since) && lastWriteTime.ToString() == Convert.ToDateTime( since).ToString())
                 {
                     context.Response.StatusCode = 304;
                     context.Response.ContentLength = 0;
@@ -123,7 +125,7 @@ namespace ImageToWebp
 
             }
 
-            return RangeDownload(context, file);
+            return RangeDownload(context, file,lastWriteTime);
         }
     }
 }
