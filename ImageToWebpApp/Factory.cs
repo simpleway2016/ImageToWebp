@@ -76,7 +76,9 @@ namespace ImageToWebp
                             }
                         }
 
-                        if(File.Exists(codedfile) == false)
+                        var lastWriteTime = new FileInfo(sourcefile).LastWriteTime;
+
+                        if (File.Exists(codedfile) == false || new FileInfo(codedfile).LastWriteTime != lastWriteTime)
                         {
                             var threadid = RunningDict.GetOrAdd(codedfile, (k) => {
                                 return Thread.CurrentThread.ManagedThreadId;
@@ -96,7 +98,8 @@ namespace ImageToWebp
                                     var ret = process.StandardOutput.ReadToEnd();
                                     if (ret.StartsWith("ok"))
                                     {
-                                        return FileSender.SendFile(context, codedfile);
+                                        new FileInfo(codedfile).LastWriteTime = lastWriteTime;
+                                        return FileSender.SendFile(context, codedfile , lastWriteTime);
                                     }
                                     else
                                     {
@@ -121,7 +124,7 @@ namespace ImageToWebp
                         }
                         else
                         {
-                            return FileSender.SendFile(context, codedfile);
+                            return FileSender.SendFile(context, codedfile, lastWriteTime);
                         }
                     }
 

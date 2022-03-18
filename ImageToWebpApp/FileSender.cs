@@ -106,9 +106,9 @@ namespace ImageToWebp
             await context.Response.SendFileAsync(fullpath, fp, length);
         }
 
-        public static Task SendFile(HttpContext context, string file)
+        public static Task SendFile(HttpContext context, string file,DateTime lastWriteTime)
         {
-            var lastWriteTime = new System.IO.FileInfo(file).LastWriteTime;
+         
             try
             {
                 var since = context.Request.Headers["If-Modified-Since"].ToString();
