@@ -58,12 +58,12 @@ namespace ImageToWebp
                         {
                             context.Response.ContentType = "image/webp";
 
-                            codedfile = sourcefile + ".webp";
+                            codedfile = $"{configuration["wwwroot"]}/__webpcache__{originalUrl}.webp";
                             type = "webp";
                         }
                         else
                         {
-                            codedfile = sourcefile + ".coded";
+                            codedfile = $"{configuration["wwwroot"]}/__webpcache__{originalUrl}.code";
                             type = Path.GetExtension(originalUrl).Substring(1).ToLower();
                             switch (type)
                             {
@@ -88,6 +88,10 @@ namespace ImageToWebp
                             {
                                 try
                                 {
+                                    var dir = Path.GetDirectoryName(codedfile);
+                                    if (Directory.Exists(dir) == false)
+                                        Directory.CreateDirectory(dir);
+
                                     var info = new ProcessStartInfo();
                                     info.FileName = configuration["nodePath"];
                                     info.Arguments = $"\"{AppDomain.CurrentDomain.BaseDirectory}squoosh/index.js\" \"{sourcefile}\" {type} \"{codedfile}\"";
