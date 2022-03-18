@@ -16,14 +16,14 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
+using System.Collections.Concurrent;
+using Microsoft.AspNetCore.Connections.Features;
 
 namespace ImageToWebp
 {
     public class Factory
     {
-       static ICompressor[] compressors = new ICompressor[] {
-
-            };
+        static ConcurrentDictionary<string, int> RunningDict = new ConcurrentDictionary<string, int>();
 
         public static void Enable(IApplicationBuilder app)
         {
@@ -78,24 +78,46 @@ namespace ImageToWebp
 
                         if(File.Exists(codedfile) == false)
                         {
-                            var info = new ProcessStartInfo();
-                            info.FileName = configuration["nodePath"];
-                            info.Arguments = $"\"{AppDomain.CurrentDomain.BaseDirectory}squoosh/index.js\" \"{sourcefile}\" {type} \"{codedfile}\"";
-                            info.RedirectStandardError = true;
-                            info.RedirectStandardOutput = true;
-                            var process = System.Diagnostics.Process.Start(info);
-                            process.WaitForExit();
-                            var ret = process.StandardOutput.ReadToEnd();
-                            if(ret.StartsWith( "ok"))
+                            var threadid = RunningDict.GetOrAdd(codedfile, (k) => {
+                                return Thread.CurrentThread.ManagedThreadId;
+                            });
+
+                            if (threadid == Thread.CurrentThread.ManagedThreadId)
                             {
-                                return FileSender.SendFile(context, codedfile);
+                                try
+                                {
+                                    var info = new ProcessStartInfo();
+                                    info.FileName = configuration["nodePath"];
+                                    info.Arguments = $"\"{AppDomain.CurrentDomain.BaseDirectory}squoosh/index.js\" \"{sourcefile}\" {type} \"{codedfile}\"";
+                                    info.RedirectStandardError = true;
+                                    info.RedirectStandardOutput = true;
+                                    var process = System.Diagnostics.Process.Start(info);
+                                    process.WaitForExit();
+                                    var ret = process.StandardOutput.ReadToEnd();
+                                    if (ret.StartsWith("ok"))
+                                    {
+                                        return FileSender.SendFile(context, codedfile);
+                                    }
+                                    else
+                                    {
+                                        context.Response.ContentType = "text/html";
+                                        return context.Response.WriteAsync(ret);
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                    throw;
+                                }
+                                finally
+                                {
+                                    RunningDict.Remove(codedfile,out int o);
+                                }
                             }
                             else
                             {
-                                context.Response.ContentType = "text/html";
-                                return context.Response.WriteAsync(ret);
+                                return task();
                             }
-                            
                         }
                         else
                         {
