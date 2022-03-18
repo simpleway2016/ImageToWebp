@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageToWebpApp", "ImageToWebpApp\ImageToWebpApp.csproj", "{ED1A270F-9095-4BD0-9F54-F19D6FD02E3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{01E70D3F-B69D-4596-B3DE-D56A1E1181BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{ED1A270F-9095-4BD0-9F54-F19D6FD02E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED1A270F-9095-4BD0-9F54-F19D6FD02E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED1A270F-9095-4BD0-9F54-F19D6FD02E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01E70D3F-B69D-4596-B3DE-D56A1E1181BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01E70D3F-B69D-4596-B3DE-D56A1E1181BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01E70D3F-B69D-4596-B3DE-D56A1E1181BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01E70D3F-B69D-4596-B3DE-D56A1E1181BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,6 @@ using Microsoft.Extensions.FileProviders;
 Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 //builder.Services.AddRazorPages();
 
@@ -32,7 +31,7 @@ app.UseStaticFiles(new StaticFileOptions
     ContentTypeProvider = provider
 });
 
-
+var pp = app.Environment.WebRootPath;
 
 app.UseRouting();
 
